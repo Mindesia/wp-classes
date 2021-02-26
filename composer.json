@@ -1,28 +1,34 @@
 {
   "name": "mindesia/wp-classes",
+  "type": "library",
   "description": "WordPress & Timber classes",
-  "homepage": "https://github.com/Mindesia/wp-classes.git",
+  "homepage": "https://github.com/Mindesia/wp-classes",
+  "license": "MIT",
   "authors": [
     {
       "name": "Romain PIOT",
       "email": "romainpiot.pro@gmail.com",
-      "homepage": "https://romainpiot.fr",
+      "homepage": "https://github.com/rompiot",
       "role": "Developer"
     }
   ],
   "require": {
     "php": ">=7.3",
     "cocur/slugify": "^4.0",
-    "timber/timber": "^1.18",
-    "hellonico/timber-dump-extension": "^1.0"
+    "timber/timber": "^1.18"
   },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    }
+  ],
   "autoload": {
     "psr-4": {
-      "Mindesia\\WP_Class\\": "src/WP_Class",
-      "Mindesia\\Twig\\": "src/Twig"
+      "Mindesia\\": "src/"
     },
     "classmap": [
-      "vendor/"
+      "src/"
     ]
   }
 }

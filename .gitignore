@@ -1,3 +1,2 @@
-vendor
-.DS_Store
-*.log
+/vendor
+/composer.lock

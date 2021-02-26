@@ -44,7 +44,7 @@ namespace Mindesia\Twig {
 
 namespace {
 
-    use Mindesia\Classes\Utils;
+    use Mindesia\WP_Class\Utils;
 
 
     function isLocal()
