@@ -18,7 +18,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Mindesia\\": "src/"
+      "Mindesia\\WP_Class\\": "src/WP_Class",
+      "Mindesia\\Twig\\": "src/Twig"
     },
     "classmap": [
       "vendor/"
