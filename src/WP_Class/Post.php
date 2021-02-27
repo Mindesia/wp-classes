@@ -26,21 +26,25 @@ class Post
         return Timber::get_posts($args);
     }
 
-     /**
-      * Get all Posts by PostType
-      *
-      * @param array $post_type_slugs
-      * @param integer $per_page
-      * @param string $sort_field
-      * @param string $taxonomy
-      * @param string $terms
-      * @return array
-      */
-    public static function get_all_by_post_type(array $post_type_slugs, int $per_page = null, string $sort_field = null, string $taxonomy = null, string $terms = null): array
+    /**
+     * Get all Posts by PostType
+     *
+     * @param array|string $post_type_slugs
+     * @param integer $per_page
+     * @param string $sort_field
+     * @param string $taxonomy
+     * @param string $terms
+     * @return array
+     */
+    public static function get_all_by_post_type($post_type_slugs, int $per_page = null, string $sort_field = null, string $taxonomy = null, string $terms = null): array
     {
         $posts = [];
-        $per_page = $per_page == null ? "-1" : $per_page;
 
+        if (!\is_array($post_type_slugs)) {
+            $post_type_slugs = [$post_type_slugs];
+        }
+
+        $per_page = $per_page == null ? "-1" : $per_page;
         $current_page = get_query_var('paged');
         $current_page = max(1, $current_page);
 
@@ -82,15 +86,19 @@ class Post
     /**
      * Undocumented function
      *
-     * @param array $post_type_slugs
+     * @param array|string $post_type_slugs
      * @param string $taxonomy
      * @param array $terms
      * @param integer $max_posts
      * @return void
      */
-    public static function get_similar(array $post_type_slugs, string $taxonomy = null, array $terms = null, int $max_posts = 3)
+    public static function get_similar($post_type_slugs, string $taxonomy = null, array $terms = null, int $max_posts = 3)
     {
         $posts = [];
+
+        if (!\is_array($post_type_slugs)) {
+            $post_type_slugs = [$post_type_slugs];
+        }
 
         foreach ($post_type_slugs as $post_type) {
 
@@ -118,7 +126,7 @@ class Post
     {
         $current_page = get_query_var('paged');
         $current_page = max(1, $current_page);
-        $per_page != null ?? 1; 
+        $per_page != null ?? 1;
 
         if (!$post_type_slug) {
             return;
@@ -146,7 +154,7 @@ class Post
     {
         $current_page = get_query_var('paged');
         $current_page = max(1, $current_page);
-        $per_page != null ?? 1; 
+        $per_page != null ?? 1;
 
         $args = [
             'post_type' => $posts_list[0]->get_post_type(),
@@ -168,17 +176,30 @@ class Post
     }
 
     /**
-     * Get all posts by term ids
+     * Get all posts by term
+     * 
+     * TODO : get_posts not working
      *
-     * @param integer $term_ids
+     * @param array $terms
+     * @param $taxonomy_name
      * @return array
      */
-    public static function get_all_by_term_ids(array $term_ids, $taxonomy_name): array
+    public static function get_all_by_terms($terms, $taxonomy = null): array
     {
         $posts = [];
 
-        foreach ($term_ids as $term_id) {
-            $termPosts = (new TimberTerm($term_id, $taxonomy_name))->get_posts(-1);
+        if (!\is_array($terms)) {
+            $terms = [$terms];
+        }
+
+        foreach ($terms as $term) {
+
+            if ($term instanceof TimberTerm) {
+                $termPosts = $term->get_posts('-1');
+            } else {
+                $termPosts = (new TimberTerm($term, $taxonomy))->get_posts(-1);
+            }
+
             \array_push($posts, $termPosts);
         }
 
@@ -195,7 +216,7 @@ class Post
         if ($post == null) {
             $post = Timber::get_post();
         }
-        
+
         $title_string = html_entity_decode($post->title());
         return (new Slugify())->slugify($title_string);
     }
