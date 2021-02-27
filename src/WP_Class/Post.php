@@ -72,7 +72,38 @@ class Post
                 ];
             }
 
-            $context["artworks"] = Timber::get_posts($args);
+            $post_type_posts = Timber::get_posts($args);
+            $posts = \array_merge($posts, $post_type_posts);
+        }
+
+        return $posts;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param array $post_type_slugs
+     * @param string $taxonomy_field
+     * @param array $taxonomy_value
+     * @param integer $max_posts
+     * @return void
+     */
+    public static function get_similar(array $post_type_slugs, string $taxonomy_field = null, array $taxonomy_value = null, int $max_posts = 3)
+    {
+        $posts = [];
+
+        foreach ($post_type_slugs as $post_type) {
+
+            $args = [
+                'post_type' => $post_type,
+                'orderby' => 'rand',
+                'posts_per_page' => $max_posts,
+                'tax_query' => [
+                    'taxonomy' => $taxonomy_field,
+                    'field' => 'slug',
+                    'terms' => $taxonomy_value,
+                ]
+            ];
 
             $post_type_posts = Timber::get_posts($args);
             $posts = \array_merge($posts, $post_type_posts);
