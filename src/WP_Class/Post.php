@@ -32,11 +32,11 @@ class Post
       * @param array $post_type_slugs
       * @param integer $per_page
       * @param string $sort_field
-      * @param string $taxonomy_field
-      * @param string $taxonomy_value
+      * @param string $taxonomy
+      * @param string $terms
       * @return array
       */
-    public static function get_all_by_post_type(array $post_type_slugs, int $per_page = null, string $sort_field = null, string $taxonomy_field = null, string $taxonomy_value = null): array
+    public static function get_all_by_post_type(array $post_type_slugs, int $per_page = null, string $sort_field = null, string $taxonomy = null, string $terms = null): array
     {
         $posts = [];
         $per_page = $per_page == null ? "-1" : $per_page;
@@ -62,12 +62,12 @@ class Post
                 $args['orderby'] = 'meta_value, meta_value_num';
             }
 
-            if ($taxonomy_field && $taxonomy_value) {
+            if ($taxonomy && $terms) {
                 $args['tax_query'] = [
                     [
-                        'taxonomy' => $taxonomy_field,
+                        'taxonomy' => $taxonomy,
                         'field' => 'slug',
-                        'terms' => $taxonomy_value,
+                        'terms' => $terms,
                     ]
                 ];
             }
@@ -83,12 +83,12 @@ class Post
      * Undocumented function
      *
      * @param array $post_type_slugs
-     * @param string $taxonomy_field
-     * @param array $taxonomy_value
+     * @param string $taxonomy
+     * @param array $terms
      * @param integer $max_posts
      * @return void
      */
-    public static function get_similar(array $post_type_slugs, string $taxonomy_field = null, array $taxonomy_value = null, int $max_posts = 3)
+    public static function get_similar(array $post_type_slugs, string $taxonomy = null, array $terms = null, int $max_posts = 3)
     {
         $posts = [];
 
@@ -99,9 +99,11 @@ class Post
                 'orderby' => 'rand',
                 'posts_per_page' => $max_posts,
                 'tax_query' => [
-                    'taxonomy' => $taxonomy_field,
-                    'field' => 'slug',
-                    'terms' => $taxonomy_value,
+                    [
+                        'taxonomy' => $taxonomy,
+                        'field' => 'slug',
+                        'terms' => $terms,
+                    ]
                 ]
             ];
 
