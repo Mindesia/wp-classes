@@ -4,6 +4,7 @@
   "description": "WordPress & Timber classes",
   "homepage": "https://github.com/Mindesia/wp-classes",
   "license": "MIT",
+  "keywords": ["wordpress", "bedrock", "timber", "acf"],
   "authors": [
     {
       "name": "Romain PIOT",

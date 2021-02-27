@@ -87,7 +87,7 @@ class TemplateDirectory
     }
 
     /** Pages */
-    public function rp_get_page_template($aaa)
+    public function rp_get_page_template()
     {
         $id = get_queried_object_id();
         $template = get_page_template_slug();
@@ -103,11 +103,13 @@ class TemplateDirectory
 
         $templates = [];
 
-        // get template acf 
-        $acf_template_page = get_field("template_page");
-        
-        if ($acf_template_page) {
-            $templates[] = self::$pages_template_folder . '/' . $acf_template_page . ".php";
+        if(class_exists('ACF') ) {
+            // get template acf 
+            $acf_template_page = get_field("template_page");
+            
+            if ($acf_template_page) {
+                $templates[] = self::$pages_template_folder . '/' . $acf_template_page . ".php";
+            }
         }
 
         if ($template && validate_file($template) === 0) {
