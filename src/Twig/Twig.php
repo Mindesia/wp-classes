@@ -32,6 +32,7 @@ namespace Mindesia\Twig {
             // Functions
             $twig->addFunction(new Twig_Function('is_local', "isLocal"));
             $twig->addFunction(new Twig_Function('dd', "dumpAndDie"));
+            $twig->addFunction(new Twig_Function('goto', "goToUrl"));
 
             return $twig;
         }
@@ -52,6 +53,10 @@ namespace {
         return Utils::is_local();
     }
 
+    function goToUrl($url)
+    {
+        return "onclick=\"location.href='" . $url . "';\"";
+    }
 
     function dumpAndDie($val)
     {
