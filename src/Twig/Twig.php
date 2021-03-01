@@ -7,6 +7,7 @@ namespace Mindesia\Twig {
     use Timber\Twig_Function;
     use Twig\Environment;
     use Twig\Extension\StringLoaderExtension;
+    use Twig\Extra\Intl\IntlExtension;
 
     class Twig
     {
@@ -25,6 +26,7 @@ namespace Mindesia\Twig {
             $twig->addExtension(new StringLoaderExtension());
             $twig->addExtension(new TwigDumper());
             $twig->addExtension(new SlugifyExtension(Slugify::create()));
+            $twig->addExtension(new IntlExtension());
 
             // Filters
             // $twig->addFilter(new TwigFilter('my_foo', 'my_foo'));

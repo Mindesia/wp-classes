@@ -16,7 +16,8 @@
   "require": {
     "php": ">=7.3",
     "cocur/slugify": "^4.0",
-    "timber/timber": "^1.18"
+    "timber/timber": "^1.18",
+    "twig/intl-extra": "^3.3"
   },
   "repositories": [
     {
