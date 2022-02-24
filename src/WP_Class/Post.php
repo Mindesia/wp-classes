@@ -217,7 +217,7 @@ class Post
             $post = Timber::get_post();
         }
 
-        $title_string = html_entity_decode($post->title());
+        $title_string = $post ? html_entity_decode($post->title()) : null;
         return (new Slugify())->slugify($title_string);
     }
 }
